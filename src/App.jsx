@@ -115,6 +115,48 @@ function R({ children, className = "", delay = 0, dir = "up" }) {
   return <div ref={ref} className={className} style={{ opacity: v ? 1 : 0, transform: v ? "none" : t[dir], transition: `opacity 0.8s cubic-bezier(.16,1,.3,1) ${delay}s, transform 0.8s cubic-bezier(.16,1,.3,1) ${delay}s` }}>{children}</div>;
 }
 
+// ─── SCROLL PROGRESS BAR ────────────────────
+function ScrollProgress() {
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const h = () => { const s = window.scrollY; const d = document.documentElement.scrollHeight - window.innerHeight; setW(d > 0 ? (s / d) * 100 : 0); };
+    window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h);
+  }, []);
+  return <div className="scroll-progress" style={{ width: `${w}%` }} />;
+}
+
+// ─── FLOATING PARTICLES ─────────────────────
+function Particles({ count = 20, color = "#ef4444" }) {
+  const dots = useRef(Array.from({ length: count }, (_, i) => ({
+    x: Math.random() * 100, size: 2 + Math.random() * 3, dur: 8 + Math.random() * 12, delay: Math.random() * 10, opacity: 0.15 + Math.random() * 0.25,
+  }))).current;
+  return <div style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden" }}>
+    {dots.map((d, i) => <div key={i} style={{ position: "absolute", bottom: "-10px", left: `${d.x}%`, width: d.size, height: d.size, borderRadius: "50%", background: color, opacity: d.opacity, animation: `particleFloat ${d.dur}s linear ${d.delay}s infinite` }} />)}
+  </div>;
+}
+
+// ─── ANIMATED COUNTER ───────────────────────
+function Counter({ end, suffix = "", prefix = "", duration = 1.5 }) {
+  const [ref, inView] = useInView(0.3);
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const num = parseFloat(end); if (isNaN(num)) { setVal(end); return; }
+    const start = Date.now();
+    const tick = () => { const p = Math.min((Date.now() - start) / (duration * 1000), 1); const ease = 1 - Math.pow(1 - p, 3);
+      setVal(num % 1 === 0 ? Math.round(num * ease) : (num * ease).toFixed(1));
+      if (p < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  }, [inView, end, duration]);
+  return <span ref={ref} className={inView ? "count-in" : ""} style={{ display: "inline-block" }}>{prefix}{val}{suffix}</span>;
+}
+
+// ─── STAGGER GRID ───────────────────────────
+function StaggerGrid({ children, className = "", style = {} }) {
+  const [ref, v] = useInView(0.05);
+  return <div ref={ref} className={`stagger-in ${v ? "visible" : ""} ${className}`} style={style}>{children}</div>;
+}
+
 // ─── TOKENS ─────────────────────────────────
 const C = {
   bg: "#09090b", sf: "#111113", card: "#18181b",
@@ -150,8 +192,10 @@ function CSS() { return <style>{`
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   :root{--f:'Inter',system-ui,-apple-system,sans-serif;--fm:ui-monospace,'SF Mono',monospace}
   *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-  body{font-family:var(--f);-webkit-font-smoothing:antialiased}
+  body{font-family:var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
   ::selection{background:${C.accentM};color:${C.white}}
+
+  /* Core keyframes */
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
   @keyframes gd{0%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(0.95)}100%{transform:translate(0,0) scale(1)}}
   @keyframes gp{0%,100%{opacity:.4}50%{opacity:.8}}
@@ -162,13 +206,72 @@ function CSS() { return <style>{`
   @keyframes borderGlow{0%,100%{border-color:#ef444425}50%{border-color:#f9731640}}
   @keyframes fd{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
   @keyframes imgReveal{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:scale(1)}}
+
+  /* NEW: Particle float */
+  @keyframes particleFloat{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-800px) translateX(40px);opacity:0}}
+  @keyframes particleDrift{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-400px) translateX(-30px)}100%{transform:translateY(-800px) translateX(20px)}}
+
+  /* NEW: Scroll progress bar */
+  .scroll-progress{position:fixed;top:0;left:0;height:2px;background:${C.grad};z-index:200;transition:width .1s linear}
+
+  /* NEW: Card 3D tilt on hover */
+  .card-tilt{transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .3s,box-shadow .3s;transform-style:preserve-3d;perspective:800px}
+  .card-tilt:hover{transform:translateY(-6px) rotateX(2deg) rotateY(-2deg);border-color:${C.borderH};box-shadow:0 20px 60px -15px rgba(0,0,0,.5),0 0 20px #ef444410}
+
+  /* NEW: Gradient border sweep */
+  @keyframes borderSweep{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  .gradient-border{position:relative;z-index:0}
+  .gradient-border::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,#ef444430,#f9731640,#ef444410,#f9731630);background-size:300% 300%;animation:borderSweep 6s ease infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:-1}
+
+  /* NEW: Pulse ring on buttons */
+  @keyframes pulseRing{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+  .pulse-btn{position:relative;overflow:visible}
+  .pulse-btn::after{content:'';position:absolute;inset:-4px;border-radius:inherit;border:2px solid #ef444430;animation:pulseRing 2s cubic-bezier(0,0,.2,1) infinite;pointer-events:none}
+
+  /* NEW: Nav link animated underline */
+  .nav-link{position:relative}
+  .nav-link::after{content:'';position:absolute;bottom:0;left:50%;width:0;height:1.5px;background:${C.grad};transition:all .3s cubic-bezier(.16,1,.3,1);transform:translateX(-50%);border-radius:1px}
+  .nav-link:hover::after{width:60%}
+  .nav-link:hover{color:#e4e4e7 !important}
+
+  /* NEW: Animated number counter */
+  @keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .count-in{animation:countUp .6s cubic-bezier(.16,1,.3,1) forwards}
+
+  /* NEW: Stagger children on reveal */
+  .stagger-in>*{opacity:0;transform:translateY(20px)}
+  .stagger-in.visible>*{opacity:1;transform:none;transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1)}
+  .stagger-in.visible>*:nth-child(1){transition-delay:.0s}
+  .stagger-in.visible>*:nth-child(2){transition-delay:.07s}
+  .stagger-in.visible>*:nth-child(3){transition-delay:.14s}
+  .stagger-in.visible>*:nth-child(4){transition-delay:.21s}
+  .stagger-in.visible>*:nth-child(5){transition-delay:.28s}
+  .stagger-in.visible>*:nth-child(6){transition-delay:.35s}
+
+  /* NEW: Breathing glow on sections */
+  @keyframes sectionGlow{0%,100%{box-shadow:inset 0 1px 0 #ef444408}50%{box-shadow:inset 0 1px 0 #ef444420}}
+  .section-glow{animation:sectionGlow 4s ease-in-out infinite}
+
+  /* NEW: Floating tag pills */
+  @keyframes tagFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .tag-float:nth-child(odd){animation:tagFloat 3s ease-in-out infinite}
+  .tag-float:nth-child(even){animation:tagFloat 3s ease-in-out infinite;animation-delay:1.5s}
+
+  /* NEW: Image parallax on scroll */
+  .parallax-img{transition:transform .1s linear}
+
+  /* NEW: Typing cursor */
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .typing-cursor::after{content:'|';color:${C.accent};animation:blink 1s step-end infinite;margin-left:4px;font-weight:300}
+
+  /* Existing enhanced */
   .gorb{animation:gd 12s ease-in-out infinite,gp 6s ease-in-out infinite;position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0}
   .clft{transition:transform .3s,border-color .3s,box-shadow .3s}
   .clft:hover{transform:translateY(-4px);border-color:${C.borderH};box-shadow:0 12px 40px -12px rgba(0,0,0,.4)}
   .cshm{position:relative;overflow:hidden}
   .cshm::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.02) 45%,rgba(255,255,255,.04) 50%,rgba(255,255,255,.02) 55%,transparent 60%);background-size:200% 100%;animation:sh 8s linear infinite;pointer-events:none;border-radius:inherit}
   .bglow{background:${C.grad};box-shadow:0 0 20px ${C.accentM},0 0 40px #f9731615}
-  .bglow:hover{box-shadow:0 0 30px ${C.accentM},0 0 60px #f9731630}
+  .bglow:hover{box-shadow:0 0 30px ${C.accentM},0 0 60px #f9731630;transform:translateY(-1px)}
   .grad-btn{background:${C.gradAnim};background-size:300% 300%;animation:gradPulse 4s ease infinite}
   .logo-icon{animation:logoPulse 3s ease-in-out infinite}
   .badge-glow{animation:borderGlow 3s ease-in-out infinite}
@@ -176,7 +279,7 @@ function CSS() { return <style>{`
   .glass{background:rgba(9,9,11,.8);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5)}
   .imgc{border-radius:16px;overflow:hidden;position:relative}
   .imgc img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);display:block}
-  .imgc:hover img{transform:scale(1.04)}
+  .imgc:hover img{transform:scale(1.06)}
   .imgc::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(9,9,11,.4) 100%);pointer-events:none}
   .dn{display:flex}.mn{display:none !important}
   @media(max-width:1024px){.dn{display:none !important}.mn{display:flex !important}}
@@ -202,7 +305,7 @@ function SH({badge,title,sub,center}){return <R><div style={{textAlign:center?"c
   {sub&&<p style={{fontSize:15,color:C.muted,lineHeight:1.7,maxWidth:center?560:560,margin:center?"0 auto":undefined,textAlign:center?"center":"left"}}>{sub}</p>}
 </div></R>}
 
-function FC({icon,title,desc,i=0}){return <R delay={i*.08}><div className="clft cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,padding:28,height:"100%"}}>
+function FC({icon,title,desc,i=0}){return <R delay={i*.08}><div className="card-tilt gradient-border cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,padding:28,height:"100%"}}>
   <div style={{width:40,height:40,borderRadius:10,background:"linear-gradient(135deg,#ef444418,#f9731618)",display:"flex",alignItems:"center",justifyContent:"center",color:C.accent,marginBottom:16}}>{icon}</div>
   <h3 style={{fontSize:16,fontWeight:600,color:C.white,marginBottom:8,letterSpacing:"-.01em"}}>{title}</h3>
   <p style={{fontSize:14,color:C.muted,lineHeight:1.65}}>{desc}</p>
@@ -213,13 +316,13 @@ function CI({text}){return <div style={{display:"flex",gap:10,alignItems:"flex-s
   <span style={{fontSize:14,color:C.muted,lineHeight:1.55}}>{text}</span>
 </div>}
 
-function RC({quote,author,d=0}){return <R delay={d}><div className="clft cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,padding:24}}>
+function RC({quote,author,d=0}){return <R delay={d}><div className="card-tilt cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,padding:24}}>
   <div style={{display:"flex",gap:2,marginBottom:12}}>{[1,2,3,4,5].map(i=><span key={i}>{I.star}</span>)}</div>
   <p style={{fontSize:14,color:C.text,fontStyle:"italic",lineHeight:1.7,marginBottom:16}}>"{quote}"</p>
   <p style={{fontSize:13,fontWeight:600,color:C.white}}>{author}</p><p style={{fontSize:12,color:C.subtle}}>Google Review</p>
 </div></R>}
 
-function NC({num,title,desc,to,vtype,d=0}){const inner=<div className="clft cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",height:"100%",cursor:to?"pointer":"default"}}>
+function NC({num,title,desc,to,vtype,d=0}){const inner=<div className="card-tilt cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:16,overflow:"hidden",height:"100%",cursor:to?"pointer":"default"}}>
   {vtype&&<VisualPanel type={vtype} height={160} label={title}/>}
   <div style={{padding:24}}>
     <div style={{fontSize:36,fontWeight:800,color:"#ef444430",marginBottom:10,fontFamily:"var(--fm)",lineHeight:1}}>{num}</div>
@@ -239,7 +342,7 @@ function BatteryCard({tag,title,desc,features,vtype="battery",d=0}){return <sect
         <Badge>{tag}</Badge>
         <h2 style={{fontSize:"clamp(1.5rem,2.8vw,2rem)",fontWeight:700,color:C.white,letterSpacing:"-.02em",marginBottom:14}}>{title}</h2>
         <p style={{fontSize:14,color:C.muted,lineHeight:1.7,marginBottom:20}}>{desc}</p>
-        <div style={{display:"flex",flexWrap:"wrap",gap:8}}>{features.map(f=><span key={f} style={{padding:"8px 16px",background:C.card,border:`1px solid ${C.border}`,borderRadius:100,fontSize:13,color:C.text,fontWeight:500}}>{f}</span>)}</div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:8}}>{features.map(f=><span key={f} className="tag-float" style={{padding:"8px 16px",background:C.card,border:`1px solid ${C.border}`,borderRadius:100,fontSize:13,color:C.text,fontWeight:500}}>{f}</span>)}</div>
       </div></R>
       <R delay={0.15}><VisualPanel type={vtype} height={300}/></R>
     </div>
@@ -253,13 +356,13 @@ function StatBar({stats,glass}){return <R delay={.35}><div className="stat-bar" 
   </div>)}
 </div></R>}
 
-function CTA({badge,title,sub}){return <section style={{background:C.sf,borderTop:`1px solid ${C.border}`}}>
+function CTA({badge,title,sub}){return <section className="section-glow" style={{background:C.sf,borderTop:`1px solid ${C.border}`}}>
   <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",textAlign:"center"}}>
     <R><Badge>{badge}</Badge>
       <h2 style={{fontSize:"clamp(1.6rem,3vw,2.4rem)",fontWeight:700,color:C.white,maxWidth:600,margin:"0 auto 14px",letterSpacing:"-.02em"}}>{title}</h2>
       <p style={{fontSize:15,color:C.muted,maxWidth:520,margin:"0 auto 28px",lineHeight:1.7}}>{sub}</p>
       <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
-        <L to="/contact" className="bglow" style={btn("p")}>Get a Quote {I.arr}</L>
+        <L to="/contact" className="bglow grad-btn pulse-btn" style={btn("p")}>Get a Quote {I.arr}</L>
         <a href="tel:+16193341212" style={btn("o")}>{I.ph} Talk to a Solar Specialist</a>
       </div>
     </R>
@@ -306,12 +409,13 @@ function Hero({badge,title,sub,pLabel,pTo,sLabel,sHref,sTo,stats,heroType,full})
     <Gorb color={C.accent} size={500} top="-10%" left="20%"/>
     <Gorb color="#f97316" size={400} top="10%" right="5%" d={1}/>
     {full&&<Gorb color="#ef4444" size={300} bottom="20%" left="60%" d={2}/>}
+    <Particles count={full?24:12} color={svgAccent}/>
     <div style={{maxWidth:1200,margin:"0 auto",padding:full?"160px 24px 72px":"0 24px",position:"relative",zIndex:2}}>
       <R><Badge>{badge}</Badge></R>
-      <R delay={.08}><h1 style={{fontSize:full?"clamp(2.6rem,5.5vw,4.2rem)":"clamp(2.2rem,4.5vw,3.4rem)",fontWeight:700,lineHeight:1.08,letterSpacing:"-.03em",color:C.white,marginBottom:22,maxWidth:800}}>{title}</h1></R>
+      <R delay={.08}><h1 className={full?"typing-cursor":""} style={{fontSize:full?"clamp(2.6rem,5.5vw,4.2rem)":"clamp(2.2rem,4.5vw,3.4rem)",fontWeight:700,lineHeight:1.08,letterSpacing:"-.03em",color:C.white,marginBottom:22,maxWidth:800}}>{title}</h1></R>
       <R delay={.15}><p style={{fontSize:16,lineHeight:1.7,color:"rgba(228,228,231,.75)",marginBottom:32,maxWidth:540}}>{sub}</p></R>
       <R delay={.22}><div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
-        {pTo&&<L to={pTo} className="bglow grad-btn" style={btn("p")}>{pLabel} {I.arr}</L>}
+        {pTo&&<L to={pTo} className="bglow grad-btn pulse-btn" style={btn("p")}>{pLabel} {I.arr}</L>}
         {sHref?<a href={sHref} style={btn("o")}>{I.ph} {sLabel}</a>:sTo?<L to={sTo} style={btn("o")}>{sLabel} {I.arr}</L>:null}
       </div></R>
       {stats&&<StatBar stats={stats} glass={!!heroType}/>}
@@ -324,7 +428,7 @@ function Header(){
   const[sc,setSc]=useState(false);const[op,setOp]=useState(false);
   useEffect(()=>{const h=()=>setSc(window.scrollY>30);window.addEventListener("scroll",h);return()=>window.removeEventListener("scroll",h)},[]);
   const nv=[{l:"Home",t:"/"},{l:"Commercial",t:"/commercial-solar"},{l:"Residential",t:"/residential-solar"},{l:"PV Solar",t:"/pv-solar"},{l:"Batteries",t:"/batteries"},{l:"EV Chargers",t:"/ev-chargers"},{l:"About",t:"/about"},{l:"Contact",t:"/contact"}];
-  return <><CSS/>
+  return <><CSS/><ScrollProgress/>
     <div className={sc?"glass":""} style={{position:"fixed",top:0,left:0,right:0,zIndex:100,borderBottom:`1px solid ${sc?C.border:"transparent"}`,transition:"all .4s"}}>
       <div style={{background:C.grad,padding:"5px 0",textAlign:"center",fontSize:12,fontWeight:500,color:C.white,letterSpacing:".01em"}}>Residential, commercial, and non-profit solar in San Diego since 2005</div>
       <div style={{maxWidth:1360,margin:"0 auto",padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:64}}>
@@ -332,7 +436,7 @@ function Header(){
           <div className="logo-icon" style={{width:32,height:32,borderRadius:8,background:C.grad,display:"flex",alignItems:"center",justifyContent:"center",color:C.white}}>{I.sun}</div>
           <span style={{fontSize:17,fontWeight:700,color:C.white,letterSpacing:"-.02em"}}>Perk Solar</span>
         </L>
-        <nav className="dn" style={{gap:2,alignItems:"center"}}>{nv.map(n=><L key={n.t} to={n.t} style={{padding:"7px 14px",fontSize:13,color:C.muted,borderRadius:8,transition:"all .2s",fontWeight:500}}>{n.l}</L>)}</nav>
+        <nav className="dn" style={{gap:2,alignItems:"center"}}>{nv.map(n=><L key={n.t} to={n.t} className="nav-link" style={{padding:"7px 14px",fontSize:13,color:C.muted,borderRadius:8,transition:"all .2s",fontWeight:500}}>{n.l}</L>)}</nav>
         <div className="dn" style={{gap:10,alignItems:"center"}}>
           <a href="tel:+16193341212" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 16px",border:`1px solid ${C.border}`,borderRadius:8,fontSize:13,color:C.text,fontWeight:500}}>{I.ph} 619-334-1212</a>
           <L to="/contact" className="bglow grad-btn" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 18px",background:C.grad,borderRadius:8,fontSize:13,color:C.white,fontWeight:600}}>Get a Free Quote</L>
@@ -419,8 +523,8 @@ function HomePage(){return <div>
         <SH badge="Funding Options" title="Flexible solar funding can make the project easier to start."/>
         <R delay={.1}><div className="cshm" style={{background:`linear-gradient(135deg,${C.card},#1a1710)`,border:`1px solid ${C.border}`,borderRadius:16,padding:28,marginBottom:20}}>
           <div style={{display:"flex",justifyContent:"space-between",marginBottom:14}}>
-            <div><div style={{fontSize:28,fontWeight:800,color:C.accent,fontFamily:"var(--fm)"}}>70%</div><div style={{fontSize:12,color:C.muted}}>Customer prepays</div></div>
-            <div style={{textAlign:"right"}}><div style={{fontSize:28,fontWeight:800,color:C.green,fontFamily:"var(--fm)"}}>30%</div><div style={{fontSize:12,color:C.muted}}>Partners cover</div></div>
+            <div><div style={{fontSize:28,fontWeight:800,color:C.accent,fontFamily:"var(--fm)"}}><Counter end={70} suffix="%" /></div><div style={{fontSize:12,color:C.muted}}>Customer prepays</div></div>
+            <div style={{textAlign:"right"}}><div style={{fontSize:28,fontWeight:800,color:C.green,fontFamily:"var(--fm)"}}><Counter end={30} suffix="%" /></div><div style={{fontSize:12,color:C.muted}}>Partners cover</div></div>
           </div>
           <div style={{height:6,borderRadius:3,background:C.border,overflow:"hidden"}}><div style={{width:"70%",height:"100%",background:`linear-gradient(90deg,#ef4444,#f97316)`,borderRadius:3}}/></div>
         </div></R>
@@ -574,7 +678,7 @@ function SolutionsPage(){return <div>
 function ContactPage(){const[f,sF]=useState({name:"",company:"",email:"",phone:"",pt:"",city:"",tl:"",ub:"",details:""});const[sent,sS]=useState(false);const inp={width:"100%",padding:"12px 16px",background:C.sf,border:`1px solid ${C.border}`,borderRadius:10,color:C.text,fontSize:14,transition:"all .2s"};return <div>
   <Hero heroType="contact" badge="Contact & Quote" title="Get a quote, book a consultation, or talk directly to a Perk Solar specialist." sub="Call, email, or request a quote for residential solar, commercial solar, battery storage, or EV charger installation." pLabel="Jump to Quote Form" pTo="/contact" sLabel="Call Now" sHref="tel:+16193341212" stats={[{l:"Since 2005",v:"Serving San Diego"},{l:"License 920995",v:"Licensed installer"},{l:"All Projects",v:"Residential + Commercial"}]}/>
   <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Reach Perk Solar" title="Call, email, or request a quote." sub="If you already know what you need, reach out directly."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:16}}>{[{icon:I.ph,label:"Phone",value:"619-334-1212",href:"tel:+16193341212"},{icon:I.ml,label:"Email",value:"operations@perksolar.com",href:"mailto:operations@perksolar.com"},{icon:I.pin,label:"Location",value:"El Cajon / San Diego, CA"},{icon:I.sh,label:"License",value:"CA Contractors License 920995"}].map((c,i)=><R key={i} delay={i*.08}><div className="clft" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:22}}><div style={{width:36,height:36,borderRadius:9,background:"linear-gradient(135deg,#ef444418,#f9731618)",display:"flex",alignItems:"center",justifyContent:"center",color:C.accent,marginBottom:12}}>{c.icon}</div><div style={{fontSize:11,color:C.subtle,textTransform:"uppercase",letterSpacing:"1px",marginBottom:4,fontFamily:"var(--fm)"}}>{c.label}</div>{c.href?<a href={c.href} style={{color:C.white,fontWeight:600,fontSize:14}}>{c.value}</a>:<span style={{color:C.white,fontWeight:600,fontSize:14}}>{c.value}</span>}</div></R>)}</div><R delay={.3}><div style={{display:"flex",gap:24,marginTop:20,flexWrap:"wrap"}}><span style={{display:"flex",alignItems:"center",gap:6,color:C.muted,fontSize:13}}>{I.clk} Mon–Fri 8:00 AM – 5:00 PM</span><span style={{display:"flex",alignItems:"center",gap:6,color:C.muted,fontSize:13}}>{I.clk} Sat 8:00 AM – 12:00 PM</span></div></R></section>
-  <section id="quote-form" style={{background:C.sf,borderTop:`1px solid ${C.border}`}}><div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px"}}><SH badge="Project Intake" title="Request a quote" sub="Share project details and Perk Solar can review the scope, timing, and best next step."/>{sent?<R><div className="cshm" style={{background:`linear-gradient(135deg,${C.card},#1a1710)`,border:`1px solid ${C.border}`,borderRadius:18,padding:"56px 40px",textAlign:"center"}}><div style={{width:56,height:56,borderRadius:"50%",background:"linear-gradient(135deg,#ef444418,#f9731618)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 20px"}}>{I.chk}</div><h3 style={{fontSize:22,fontWeight:700,color:C.white,marginBottom:10}}>Quote request received.</h3><p style={{fontSize:14,color:C.muted,maxWidth:400,margin:"0 auto"}}>Perk Solar will follow up soon. Call 619-334-1212 or email operations@perksolar.com.</p></div></R>:<R><div style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:18,padding:32,maxWidth:680}}><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}} className="form-grid"><input placeholder="Name" style={inp} value={f.name} onChange={e=>sF({...f,name:e.target.value})}/><input placeholder="Company" style={inp} value={f.company} onChange={e=>sF({...f,company:e.target.value})}/><input placeholder="Email" type="email" style={inp} value={f.email} onChange={e=>sF({...f,email:e.target.value})}/><input placeholder="Phone" type="tel" style={inp} value={f.phone} onChange={e=>sF({...f,phone:e.target.value})}/><select style={{...inp,appearance:"none",backgroundImage:"url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2371717a%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')",backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center"}} value={f.pt} onChange={e=>sF({...f,pt:e.target.value})}><option value="">Project type</option><option>Commercial Solar</option><option>Residential Solar</option><option>Battery Storage</option><option>EV Chargers</option><option>Solar + Storage</option></select><input placeholder="City" style={inp} value={f.city} onChange={e=>sF({...f,city:e.target.value})}/><input placeholder="Timeline" style={inp} value={f.tl} onChange={e=>sF({...f,tl:e.target.value})}/><input placeholder="Avg monthly utility bill" style={inp} value={f.ub} onChange={e=>sF({...f,ub:e.target.value})}/></div><textarea placeholder="Project details" rows={4} style={{...inp,marginTop:12,resize:"vertical"}} value={f.details} onChange={e=>sF({...f,details:e.target.value})}/><div style={{display:"flex",alignItems:"center",gap:14,marginTop:20,flexWrap:"wrap"}}><button onClick={()=>sS(true)} className="bglow" style={{...btn("p"),border:"none"}}>Send Quote Request {I.arr}</button><span style={{fontSize:13,color:C.subtle,fontFamily:"var(--fm)"}}>619-334-1212</span></div></div></R>}</div></section>
+  <section id="quote-form" style={{background:C.sf,borderTop:`1px solid ${C.border}`}}><div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px"}}><SH badge="Project Intake" title="Request a quote" sub="Share project details and Perk Solar can review the scope, timing, and best next step."/>{sent?<R><div className="cshm" style={{background:`linear-gradient(135deg,${C.card},#1a1710)`,border:`1px solid ${C.border}`,borderRadius:18,padding:"56px 40px",textAlign:"center"}}><div style={{width:56,height:56,borderRadius:"50%",background:"linear-gradient(135deg,#ef444418,#f9731618)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 20px"}}>{I.chk}</div><h3 style={{fontSize:22,fontWeight:700,color:C.white,marginBottom:10}}>Quote request received.</h3><p style={{fontSize:14,color:C.muted,maxWidth:400,margin:"0 auto"}}>Perk Solar will follow up soon. Call 619-334-1212 or email operations@perksolar.com.</p></div></R>:<R><div style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:18,padding:32,maxWidth:680}}><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}} className="form-grid"><input placeholder="Name" style={inp} value={f.name} onChange={e=>sF({...f,name:e.target.value})}/><input placeholder="Company" style={inp} value={f.company} onChange={e=>sF({...f,company:e.target.value})}/><input placeholder="Email" type="email" style={inp} value={f.email} onChange={e=>sF({...f,email:e.target.value})}/><input placeholder="Phone" type="tel" style={inp} value={f.phone} onChange={e=>sF({...f,phone:e.target.value})}/><select style={{...inp,appearance:"none",backgroundImage:"url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2371717a%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')",backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center"}} value={f.pt} onChange={e=>sF({...f,pt:e.target.value})}><option value="">Project type</option><option>Commercial Solar</option><option>Residential Solar</option><option>Battery Storage</option><option>EV Chargers</option><option>Solar + Storage</option></select><input placeholder="City" style={inp} value={f.city} onChange={e=>sF({...f,city:e.target.value})}/><input placeholder="Timeline" style={inp} value={f.tl} onChange={e=>sF({...f,tl:e.target.value})}/><input placeholder="Avg monthly utility bill" style={inp} value={f.ub} onChange={e=>sF({...f,ub:e.target.value})}/></div><textarea placeholder="Project details" rows={4} style={{...inp,marginTop:12,resize:"vertical"}} value={f.details} onChange={e=>sF({...f,details:e.target.value})}/><div style={{display:"flex",alignItems:"center",gap:14,marginTop:20,flexWrap:"wrap"}}><button onClick={()=>sS(true)} className="bglow grad-btn pulse-btn" style={{...btn("p"),border:"none"}}>Send Quote Request {I.arr}</button><span style={{fontSize:13,color:C.subtle,fontFamily:"var(--fm)"}}>619-334-1212</span></div></div></R>}</div></section>
   <CTA badge="Ready to Talk?" title="Talk with Perk Solar about your home or business." sub="Reach out for solar installation, battery storage, EV charging, retrofit work, or a straightforward local quote."/>
 </div>}
 
