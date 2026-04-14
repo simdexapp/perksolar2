@@ -8,13 +8,13 @@ import { useState, useEffect, useRef } from "react";
 // ─── IMAGE MAP ──────────────────────────────
 // ─── VISUAL PANELS (CSS-only, no external images) ────
 const VISUALS = {
-  solar: { bg: "linear-gradient(135deg, #1a1205 0%, #2d1f0a 40%, #1a1510 100%)", accent: "#ef4444", icon: "sun" },
-  commercial: { bg: "linear-gradient(135deg, #0f1520 0%, #1a1025 40%, #151520 100%)", accent: "#f97316", icon: "bld" },
-  residential: { bg: "linear-gradient(135deg, #151a10 0%, #1a2010 40%, #151815 100%)", accent: "#ef4444", icon: "hm" },
-  battery: { bg: "linear-gradient(135deg, #101520 0%, #0f1a25 40%, #101518 100%)", accent: "#22c55e", icon: "bat" },
-  ev: { bg: "linear-gradient(135deg, #151018 0%, #1a1020 40%, #151015 100%)", accent: "#3b82f6", icon: "zap" },
-  about: { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", icon: "sh" },
-  contact: { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", icon: "ph" },
+  solar: { bg: "linear-gradient(135deg, #1a1205 0%, #2d1f0a 40%, #1a1510 100%)", accent: "#ef4444", icon: "sun", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80" },
+  commercial: { bg: "linear-gradient(135deg, #0f1520 0%, #1a1025 40%, #151520 100%)", accent: "#f97316", icon: "bld", img: "https://images.unsplash.com/photo-1611365892117-00ac6b4a4c54?w=1200&q=80" },
+  residential: { bg: "linear-gradient(135deg, #151a10 0%, #1a2010 40%, #151815 100%)", accent: "#ef4444", icon: "hm", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80" },
+  battery: { bg: "linear-gradient(135deg, #101520 0%, #0f1a25 40%, #101518 100%)", accent: "#22c55e", icon: "bat", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1200&q=80" },
+  ev: { bg: "linear-gradient(135deg, #151018 0%, #1a1020 40%, #151015 100%)", accent: "#3b82f6", icon: "zap", img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&q=80" },
+  about: { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", icon: "sh", img: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80" },
+  contact: { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", icon: "ph", img: "https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&q=80" },
 };
 
 function SolarPanelSVG({ w = "100%", h = 200, accent = "#ef4444" }) {
@@ -74,10 +74,11 @@ function VisualPanel({ type = "solar", height = 260, label }) {
   const v = VISUALS[type] || VISUALS.solar;
   const SVGMap = { solar: SolarPanelSVG, commercial: SolarPanelSVG, residential: SolarPanelSVG, battery: BatterySVG, ev: EVChargeSVG, about: SolarPanelSVG, contact: SolarPanelSVG };
   const SVG = SVGMap[type] || SolarPanelSVG;
+  const [imgOk, setImgOk] = useState(true);
   return <div style={{ borderRadius: 16, overflow: "hidden", background: v.bg, position: "relative", height }}>
-    <SVG h={height} accent={v.accent} />
-    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 50%, rgba(9,9,11,0.6) 100%)", pointerEvents: "none" }}/>
-    {label && <div style={{ position: "absolute", bottom: 16, left: 20, fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.5px", textTransform: "uppercase", fontFamily: "var(--fm)" }}>{label}</div>}
+    {v.img && imgOk ? <img src={v.img} alt={label || type} onError={() => setImgOk(false)} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <SVG h={height} accent={v.accent} />}
+    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 30%, rgba(9,9,11,0.7) 100%)", pointerEvents: "none" }}/>
+    {label && <div style={{ position: "absolute", bottom: 16, left: 20, fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.6)", letterSpacing: "0.5px", textTransform: "uppercase", fontFamily: "var(--fm)" }}>{label}</div>}
   </div>;
 }
 
@@ -253,6 +254,16 @@ function CTA({badge,title,sub}){return <section style={{background:C.sf,borderTo
 
 // ─── HERO ───────────────────────────────────
 function Hero({badge,title,sub,pLabel,pTo,sLabel,sHref,sTo,stats,heroType,full}){
+  const heroImgs = {
+    solar: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+    commercial: "https://images.unsplash.com/photo-1611365892117-00ac6b4a4c54?w=1920&q=80",
+    residential: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80",
+    battery: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1920&q=80",
+    ev: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1920&q=80",
+    about: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1920&q=80",
+    contact: "https://images.unsplash.com/photo-1560472355-536de3962603?w=1920&q=80",
+    solutions: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+  };
   const heroBgs = {
     solar: "linear-gradient(135deg, #1a0f05 0%, #2a1508 30%, #1a1005 60%, #0f0a05 100%)",
     commercial: "linear-gradient(135deg, #0a0f1a 0%, #15102a 30%, #0f0a1a 60%, #0a0a10 100%)",
@@ -263,19 +274,20 @@ function Hero({badge,title,sub,pLabel,pTo,sLabel,sHref,sTo,stats,heroType,full})
     contact: "linear-gradient(135deg, #1a0a0f 0%, #251015 30%, #1a0a10 60%, #0f0a0a 100%)",
     solutions: "linear-gradient(135deg, #151005 0%, #201508 30%, #151005 60%, #0a0a05 100%)",
   };
+  const [imgOk, setImgOk] = useState(true);
   const bg = heroBgs[heroType] || heroBgs.solar;
-  return <section style={{padding:full?0:"140px 0 80px",minHeight:full?"100vh":"auto",display:full?"flex":"block",flexDirection:"column",justifyContent:"flex-end",position:"relative",overflow:"hidden",background:heroType?bg:"transparent"}}>
-    {full&&<>
-      <div style={{position:"absolute",inset:0,zIndex:0}}>
-        <SolarPanelSVG w="100%" h="100%" accent="#ef4444"/>
-      </div>
-      <div style={{position:"absolute",inset:0,zIndex:1,background:"linear-gradient(180deg,rgba(9,9,11,.15) 0%,rgba(9,9,11,.05) 20%,rgba(9,9,11,.4) 55%,rgba(9,9,11,.97) 100%)"}}/>
-      <div style={{position:"absolute",inset:0,zIndex:1,background:"linear-gradient(90deg,rgba(9,9,11,.7) 0%,transparent 60%)"}}/>
-    </>}
-    {!full&&heroType&&<>
-      <div style={{position:"absolute",inset:0,zIndex:0,opacity:0.3}}>{heroType==="battery"?<BatterySVG w="100%" h="100%" accent="#22c55e"/>:heroType==="ev"?<EVChargeSVG w="100%" h="100%" accent="#3b82f6"/>:<SolarPanelSVG w="100%" h="100%" accent="#ef4444"/>}</div>
-      <div style={{position:"absolute",inset:0,zIndex:1,background:"linear-gradient(180deg,rgba(9,9,11,.5) 0%,rgba(9,9,11,.85) 50%,rgba(9,9,11,.97) 100%)"}}/>
-    </>}
+  const heroImg = heroImgs[heroType];
+  const SVGFallback = heroType==="battery"?BatterySVG:heroType==="ev"?EVChargeSVG:SolarPanelSVG;
+  const svgAccent = heroType==="battery"?"#22c55e":heroType==="ev"?"#3b82f6":"#ef4444";
+
+  return <section style={{padding:full?0:"140px 0 80px",minHeight:full?"100vh":"auto",display:full?"flex":"block",flexDirection:"column",justifyContent:"flex-end",position:"relative",overflow:"hidden",background:bg}}>
+    {/* Background: try real image, fall back to SVG */}
+    <div style={{position:"absolute",inset:0,zIndex:0}}>
+      {heroImg && imgOk ? <img src={heroImg} alt="" onError={()=>setImgOk(false)} style={{width:"100%",height:"100%",objectFit:"cover",objectPosition:"center 40%"}}/> : <div style={{opacity:full?1:0.3}}><SVGFallback w="100%" h="100%" accent={svgAccent}/></div>}
+    </div>
+    {/* Gradient overlays */}
+    <div style={{position:"absolute",inset:0,zIndex:1,background:full?"linear-gradient(180deg,rgba(9,9,11,.2) 0%,rgba(9,9,11,.08) 20%,rgba(9,9,11,.45) 55%,rgba(9,9,11,.97) 100%)":"linear-gradient(180deg,rgba(9,9,11,.5) 0%,rgba(9,9,11,.8) 50%,rgba(9,9,11,.97) 100%)"}}/>
+    <div style={{position:"absolute",inset:0,zIndex:1,background:"linear-gradient(90deg,rgba(9,9,11,.65) 0%,transparent 60%)"}}/>
     <Gorb color={C.accent} size={500} top="-10%" left="20%"/>
     <Gorb color="#f97316" size={400} top="10%" right="5%" d={1}/>
     {full&&<Gorb color="#ef4444" size={300} bottom="20%" left="60%" d={2}/>}
