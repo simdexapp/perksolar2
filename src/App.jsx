@@ -444,16 +444,6 @@ function HomePage(){return <div>
     </div>
   </section>
 
-  {/* Solutions banner */}
-  <section style={{background:C.sf,borderTop:`1px solid ${C.border}`,borderBottom:`1px solid ${C.border}`,position:"relative",overflow:"hidden"}}>
-    <Gorb color="#f59e0b" size={350} top="-20%" left="20%" d={3}/>
-    <div style={{maxWidth:1200,margin:"0 auto",padding:"80px 24px",position:"relative",zIndex:1}}>
-      <R><div className="clft cshm" style={{background:`linear-gradient(135deg,${C.card},#1a1510)`,border:`1px solid ${C.border}`,borderRadius:18,padding:"36px 32px",display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",gap:24}}>
-        <div><Badge>Solutions</Badge><h2 style={{fontSize:"clamp(1.3rem,2.5vw,1.6rem)",fontWeight:700,color:C.white,marginBottom:6}}>Need a cleaner route into the right Perk Solar service?</h2><p style={{fontSize:14,color:C.muted}}>Compare commercial solar, residential solar, battery storage, and EV charging in one place.</p></div>
-        <div style={{display:"flex",gap:10,flexWrap:"wrap"}}><L to="/solutions" className="bglow" style={btn("p")}>View All Solutions {I.arr}</L><L to="/contact" style={btn("o")}>Get a Quote</L></div>
-      </div></R>
-    </div>
-  </section>
 
   {/* Battery Storage with images */}
   <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px"}}>
@@ -483,7 +473,6 @@ function HomePage(){return <div>
     </div>
   </section>
 
-  <CTA badge="Start Here" title="Talk with Perk Solar about solar, batteries, or EV charging." sub="Reach out for rooftop solar, commercial solar, battery storage, EV chargers, and local installation support for your home, business, or nonprofit property."/>
 </div>}
 
 // ─── COMMERCIAL ─────────────────────────────
