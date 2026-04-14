@@ -12,7 +12,7 @@ const VISUALS = {
   solar:       { bg: "linear-gradient(135deg, #1a1205 0%, #2d1f0a 40%, #1a1510 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80" },
   commercial:  { bg: "linear-gradient(135deg, #0f1520 0%, #1a1025 40%, #151520 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=1200&q=80" },
   residential: { bg: "linear-gradient(135deg, #151a10 0%, #1a2010 40%, #151815 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=1200&q=80" },
-  battery:     { bg: "linear-gradient(135deg, #101520 0%, #0f1a25 40%, #101518 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&q=80" },
+  battery:     { bg: "linear-gradient(135deg, #101520 0%, #0f1a25 40%, #101518 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1200&q=80" },
   ev:          { bg: "linear-gradient(135deg, #151018 0%, #1a1020 40%, #151015 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&q=80" },
   about:       { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=1200&q=80" },
   contact:     { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80" },
@@ -22,7 +22,7 @@ const VISUALS = {
   pvCarport:   { bg: "linear-gradient(135deg, #15100a 0%, #201510 40%, #15100a 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=1200&q=80" },
   pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80" },
   // Battery brands
-  tesla:       { bg: "linear-gradient(135deg, #101015 0%, #1a1520 40%, #101015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&q=80" },
+  tesla:       { bg: "linear-gradient(135deg, #101015 0%, #1a1520 40%, #101015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1616763355548-1b606f439f86?w=1200&q=80" },
   enphase:     { bg: "linear-gradient(135deg, #0f1518 0%, #15202a 40%, #0f1518 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1200&q=80" },
   sigenergy:   { bg: "linear-gradient(135deg, #151510 0%, #1a2018 40%, #151510 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=1200&q=80" },
   // Misc
@@ -272,7 +272,7 @@ function Hero({badge,title,sub,pLabel,pTo,sLabel,sHref,sTo,stats,heroType,full})
     solar: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
     commercial: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=1920&q=80",
     residential: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=1920&q=80",
-    battery: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1920&q=80",
+    battery: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1920&q=80",
     ev: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1920&q=80",
     about: "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=1920&q=80",
     contact: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1920&q=80",
