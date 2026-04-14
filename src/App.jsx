@@ -8,13 +8,26 @@ import { useState, useEffect, useRef } from "react";
 // ─── IMAGE MAP ──────────────────────────────
 // ─── VISUAL PANELS (CSS-only, no external images) ────
 const VISUALS = {
-  solar: { bg: "linear-gradient(135deg, #1a1205 0%, #2d1f0a 40%, #1a1510 100%)", accent: "#ef4444", icon: "sun", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80" },
-  commercial: { bg: "linear-gradient(135deg, #0f1520 0%, #1a1025 40%, #151520 100%)", accent: "#f97316", icon: "bld", img: "https://images.unsplash.com/photo-1611365892117-00ac6b4a4c54?w=1200&q=80" },
-  residential: { bg: "linear-gradient(135deg, #151a10 0%, #1a2010 40%, #151815 100%)", accent: "#ef4444", icon: "hm", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80" },
-  battery: { bg: "linear-gradient(135deg, #101520 0%, #0f1a25 40%, #101518 100%)", accent: "#22c55e", icon: "bat", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1200&q=80" },
-  ev: { bg: "linear-gradient(135deg, #151018 0%, #1a1020 40%, #151015 100%)", accent: "#3b82f6", icon: "zap", img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&q=80" },
-  about: { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", icon: "sh", img: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80" },
-  contact: { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", icon: "ph", img: "https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&q=80" },
+  // Heroes & general
+  solar:       { bg: "linear-gradient(135deg, #1a1205 0%, #2d1f0a 40%, #1a1510 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80" },
+  commercial:  { bg: "linear-gradient(135deg, #0f1520 0%, #1a1025 40%, #151520 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=1200&q=80" },
+  residential: { bg: "linear-gradient(135deg, #151a10 0%, #1a2010 40%, #151815 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80" },
+  battery:     { bg: "linear-gradient(135deg, #101520 0%, #0f1a25 40%, #101518 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&q=80" },
+  ev:          { bg: "linear-gradient(135deg, #151018 0%, #1a1020 40%, #151015 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1200&q=80" },
+  about:       { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=1200&q=80" },
+  contact:     { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80" },
+  // PV system types
+  pvRooftop:   { bg: "linear-gradient(135deg, #1a1508 0%, #251a0a 40%, #1a1508 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80" },
+  pvGround:    { bg: "linear-gradient(135deg, #0f1a08 0%, #152010 40%, #0f1508 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&q=80" },
+  pvCarport:   { bg: "linear-gradient(135deg, #15100a 0%, #201510 40%, #15100a 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=1200&q=80" },
+  pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1611365892117-00ac6b4a4c54?w=1200&q=80" },
+  // Battery brands
+  tesla:       { bg: "linear-gradient(135deg, #101015 0%, #1a1520 40%, #101015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1200&q=80" },
+  enphase:     { bg: "linear-gradient(135deg, #0f1518 0%, #15202a 40%, #0f1518 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1200&q=80" },
+  sigenergy:   { bg: "linear-gradient(135deg, #151510 0%, #1a2018 40%, #151510 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=80" },
+  // Misc
+  worker:      { bg: "linear-gradient(135deg, #1a1205 0%, #2a1a0a 40%, #1a1205 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=1200&q=80" },
+  sandiego:    { bg: "linear-gradient(135deg, #0a1520 0%, #15202a 40%, #0a1520 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1538964173425-93640e4e4c5b?w=1200&q=80" },
 };
 
 function SolarPanelSVG({ w = "100%", h = 200, accent = "#ef4444" }) {
@@ -72,8 +85,9 @@ function EVChargeSVG({ w = "100%", h = 200, accent = "#3b82f6" }) {
 
 function VisualPanel({ type = "solar", height = 260, label }) {
   const v = VISUALS[type] || VISUALS.solar;
-  const SVGMap = { solar: SolarPanelSVG, commercial: SolarPanelSVG, residential: SolarPanelSVG, battery: BatterySVG, ev: EVChargeSVG, about: SolarPanelSVG, contact: SolarPanelSVG };
-  const SVG = SVGMap[type] || SolarPanelSVG;
+  const isBat = type.includes("batter") || type === "tesla" || type === "enphase" || type === "sigenergy";
+  const isEV = type === "ev";
+  const SVG = isBat ? BatterySVG : isEV ? EVChargeSVG : SolarPanelSVG;
   const [imgOk, setImgOk] = useState(true);
   return <div style={{ borderRadius: 16, overflow: "hidden", background: v.bg, position: "relative", height }}>
     {v.img && imgOk ? <img src={v.img} alt={label || type} onError={() => setImgOk(false)} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <SVG h={height} accent={v.accent} />}
@@ -256,13 +270,13 @@ function CTA({badge,title,sub}){return <section style={{background:C.sf,borderTo
 function Hero({badge,title,sub,pLabel,pTo,sLabel,sHref,sTo,stats,heroType,full}){
   const heroImgs = {
     solar: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
-    commercial: "https://images.unsplash.com/photo-1611365892117-00ac6b4a4c54?w=1920&q=80",
+    commercial: "https://images.unsplash.com/photo-1613665813446-82a78c468a1d?w=1920&q=80",
     residential: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80",
-    battery: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1920&q=80",
+    battery: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1920&q=80",
     ev: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=1920&q=80",
-    about: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1920&q=80",
-    contact: "https://images.unsplash.com/photo-1560472355-536de3962603?w=1920&q=80",
-    solutions: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1920&q=80",
+    about: "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=1920&q=80",
+    contact: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1920&q=80",
+    solutions: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1920&q=80",
   };
   const heroBgs = {
     solar: "linear-gradient(135deg, #1a0f05 0%, #2a1508 30%, #1a1005 60%, #0f0a05 100%)",
@@ -277,8 +291,9 @@ function Hero({badge,title,sub,pLabel,pTo,sLabel,sHref,sTo,stats,heroType,full})
   const [imgOk, setImgOk] = useState(true);
   const bg = heroBgs[heroType] || heroBgs.solar;
   const heroImg = heroImgs[heroType];
-  const SVGFallback = heroType==="battery"?BatterySVG:heroType==="ev"?EVChargeSVG:SolarPanelSVG;
-  const svgAccent = heroType==="battery"?"#22c55e":heroType==="ev"?"#3b82f6":"#ef4444";
+  const isBat = heroType==="battery"; const isEV = heroType==="ev";
+  const SVGFallback = isBat?BatterySVG:isEV?EVChargeSVG:SolarPanelSVG;
+  const svgAccent = isBat?"#22c55e":isEV?"#3b82f6":"#ef4444";
 
   return <section style={{padding:full?0:"140px 0 80px",minHeight:full?"100vh":"auto",display:full?"flex":"block",flexDirection:"column",justifyContent:"flex-end",position:"relative",overflow:"hidden",background:bg}}>
     {/* Background: try real image, fall back to SVG */}
@@ -381,10 +396,10 @@ function HomePage(){return <div>
   <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}>
     <SH badge="PV Solar" title="Rooftop, ground-mount, carport, and commercial PV delivery." sub="Perk Solar builds rooftop, ground-mount, carport, and commercial PV systems with the local permitting experience and installation quality needed for long-term performance."/>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:16}}>
-      <NC num="01" title="PV rooftop solar" desc="Versatile rooftop PV systems engineered around real property conditions, clean permitting, and installation quality." vtype="solar" d={0}/>
-      <NC num="02" title="Ground-mount PV" desc="Custom ground-mount arrays for sites with usable land, built for sun exposure, durability, and long-term output." vtype="solar" d={.08}/>
-      <NC num="03" title="Solar carports" desc="Covered parking structures combining clean power generation with shaded vehicle protection." vtype="commercial" d={.16}/>
-      <NC num="04" title="Commercial PV" desc="Turnkey commercial PV systems tailored to operating goals, project economics, and minimal disruption." vtype="commercial" d={.24}/>
+      <NC num="01" title="PV rooftop solar" desc="Versatile rooftop PV systems engineered around real property conditions, clean permitting, and installation quality." vtype="pvRooftop" d={0}/>
+      <NC num="02" title="Ground-mount PV" desc="Custom ground-mount arrays for sites with usable land, built for sun exposure, durability, and long-term output." vtype="pvGround" d={.08}/>
+      <NC num="03" title="Solar carports" desc="Covered parking structures combining clean power generation with shaded vehicle protection." vtype="pvCarport" d={.16}/>
+      <NC num="04" title="Commercial PV" desc="Turnkey commercial PV systems tailored to operating goals, project economics, and minimal disruption." vtype="pvCommercial" d={.24}/>
     </div>
     <R delay={.3}><div style={{marginTop:28}}><L to="/pv-solar" style={btn("o")}>Explore PV Solar {I.arr}</L></div></R>
   </section>
@@ -395,7 +410,7 @@ function HomePage(){return <div>
     <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(400px,1fr))",gap:40,alignItems:"center",marginBottom:48}}>
         <div><SH badge="Why Perk Solar" title="A local solar company serving homes, businesses, and nonprofits since 2005." sub="Long-term local service, top-quality materials, careful installation, and support for both residential and commercial energy projects."/></div>
-        <ImgSection type="solar" height={320} label="Solar Installation"/>
+        <ImgSection type="worker" height={320} label="Solar Installation"/>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>
         <FC icon={I.clk} title="Serving San Diego since 2005" desc="Nearly two decades of local installation experience across residential, commercial, and non-profit properties." i={0}/>
@@ -450,7 +465,7 @@ function HomePage(){return <div>
           <p style={{fontSize:14,color:C.muted,lineHeight:1.6}}>Tesla-focused battery expertise remains a key differentiator for homeowners and businesses looking for premium backup and energy management.</p>
         </div></R>
       </div>
-      <ImgSection type="battery" height={380} label="Battery Storage"/>
+      <ImgSection type="tesla" height={380} label="Battery Storage"/>
     </div>
   </section>
 
@@ -498,7 +513,7 @@ function ResidentialPage(){return <div>
 </div>}
 
 // ─── PV SOLAR ───────────────────────────────
-function PVSolarPage(){const sys=[{id:"rooftop",b:"PV Rooftop Solar Systems",t:"Versatile rooftop PV systems shaped by real San Diego permitting and installation experience.",d:"Local projects move more smoothly when the installer knows diverse jurisdictions and the approval process.",vt:"solar"},{id:"ground",b:"Ground Mount PV Solar",t:"Ground-mount projects stay viable when there is enough land and the site can be optimized for sun exposure.",d:"A turnkey option for San Diego landowners with usable open space.",vt:"solar"},{id:"carport",b:"Carport PV Solar",t:"Solar carports combine energy production with shaded parking and stronger site utility.",d:"Practical for properties that need covered parking or are working around rooftops that are not ideal.",vt:"commercial"},{id:"commercial",b:"Commercial PV Solar",t:"Commercial PV is framed around operating costs, budget certainty, and lower disruption during installation.",d:"Comprehensive turnkey delivery matched to operational and financial goals.",vt:"commercial"}];return <div>
+function PVSolarPage(){const sys=[{id:"rooftop",b:"PV Rooftop Solar Systems",t:"Versatile rooftop PV systems shaped by real San Diego permitting and installation experience.",d:"Local projects move more smoothly when the installer knows diverse jurisdictions and the approval process.",vt:"pvRooftop"},{id:"ground",b:"Ground Mount PV Solar",t:"Ground-mount projects stay viable when there is enough land and the site can be optimized for sun exposure.",d:"A turnkey option for San Diego landowners with usable open space.",vt:"pvGround"},{id:"carport",b:"Carport PV Solar",t:"Solar carports combine energy production with shaded parking and stronger site utility.",d:"Practical for properties that need covered parking or are working around rooftops that are not ideal.",vt:"pvCarport"},{id:"commercial",b:"Commercial PV Solar",t:"Commercial PV is framed around operating costs, budget certainty, and lower disruption during installation.",d:"Comprehensive turnkey delivery matched to operational and financial goals.",vt:"pvCommercial"}];return <div>
   <Hero heroType="solar" badge="PV Solar" title="Rooftop, ground-mount, carport, and commercial PV systems for Southern California." sub="Perk Solar organizes its PV offering around four core system types, with local permitting knowledge, turnkey delivery, and installation quality." pLabel="Get a Free Quote" pTo="/contact" sLabel="Call Perk Solar" sHref="tel:+16193341212" stats={[{l:"Rooftop",v:"Residential + property"},{l:"Ground-Mount",v:"Land-rich sites"},{l:"Carports + Commercial",v:"Larger sites"}]}/>
   {sys.map((s,i)=><section key={s.id} style={{borderTop:`1px solid ${C.border}`,background:i%2===1?C.sf:"transparent",position:"relative",overflow:"hidden"}}>
     <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}>
@@ -516,9 +531,9 @@ function BatteriesPage(){return <div>
   <Hero heroType="battery" badge="Battery Storage" title="Battery storage for backup power, smarter energy control, and whole-home planning." sub="Perk Solar supports battery planning with rebate guidance, Tesla and Enphase certifications, Pointguard and Sigenergy options, and retrofit work." pLabel="Discuss Battery Storage" pTo="/contact" sLabel="Call to Discuss Options" sHref="tel:+16193341212" stats={[{l:"Tesla + Enphase",v:"Battery-certified"},{l:"Retrofit Ready",v:"Add storage anytime"},{l:"EV Aware",v:"Whole-home planning"}]}/>
   <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Battery Directory" title="Battery planning at Perk Solar is broader than one product page." sub="Storage is framed around certifications, partner fit, retrofit value, and long-term energy behavior."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}><FC icon={I.zap} title="Rebate navigation" desc="Navigate SGIP and San Diego Community Power battery programs." i={0}/><FC icon={I.sh} title="Tesla and Enphase certifications" desc="Battery certified with recommendations tied to the property." i={1}/><FC icon={I.bat} title="Retrofits and whole-home planning" desc="Retrofit work, EV charging, smart electrical upgrades, and resilience planning." i={2}/></div></section>
 
-  <BatteryCard tag="Tesla Powerwall" title="Tesla Powerwall 3 stays a strong option for premium backup and cleaner system expansion." desc="Tesla Powerwall stores energy from solar or the grid, supports outage protection, and gives customers a cleaner path to expansion." features={["Energy savings","Solar day and night","Usage monitoring","Backup protection","Lower grid reliance","Easy expansion"]} vtype="battery" d={0}/>
-  <BatteryCard tag="Enphase IQ Battery" title="Enphase stays compelling for modular, LFP-based residential storage." desc="The IQ Battery 10C starts with 10 kWh and can expand. Lithium Iron Phosphate chemistry supports a safer, future-ready foundation." features={["Powerful","Compact","Modular","Easy to install","Safe","Reliable"]} vtype="battery" d={1.5}/>
-  <BatteryCard tag="Sigenergy / Pointguard" title="Pointguard and Sigenergy expand into all-in-one home energy management." desc="Sigenergy combines inverter, battery PCS, battery packs, EMS, and optional bidirectional EV charging in one modular system." features={["5-in-1 design","Intelligent dispatch","Backup protection","Peak-hour control","Bidirectional EV","Modular"]} vtype="battery" d={3}/>
+  <BatteryCard tag="Tesla Powerwall" title="Tesla Powerwall 3 stays a strong option for premium backup and cleaner system expansion." desc="Tesla Powerwall stores energy from solar or the grid, supports outage protection, and gives customers a cleaner path to expansion." features={["Energy savings","Solar day and night","Usage monitoring","Backup protection","Lower grid reliance","Easy expansion"]} vtype="tesla" d={0}/>
+  <BatteryCard tag="Enphase IQ Battery" title="Enphase stays compelling for modular, LFP-based residential storage." desc="The IQ Battery 10C starts with 10 kWh and can expand. Lithium Iron Phosphate chemistry supports a safer, future-ready foundation." features={["Powerful","Compact","Modular","Easy to install","Safe","Reliable"]} vtype="enphase" d={1.5}/>
+  <BatteryCard tag="Sigenergy / Pointguard" title="Pointguard and Sigenergy expand into all-in-one home energy management." desc="Sigenergy combines inverter, battery PCS, battery packs, EMS, and optional bidirectional EV charging in one modular system." features={["5-in-1 design","Intelligent dispatch","Backup protection","Peak-hour control","Bidirectional EV","Modular"]} vtype="sigenergy" d={3}/>
 
   <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Residential Solutions" title="Storage increasingly belongs inside a wider whole-home energy modernization plan."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>{[{t:"The battery pivot",d:"Capture midday solar production and use it later when utility rates are highest."},{t:"Retrofitting for ROI",d:"Adding storage later can preserve the value of an existing solar install."},{t:"Whole-home electrification",d:"Battery systems make more sense when planned alongside EV charging."},{t:"VPP-ready conversations",d:"Some platforms can support grid services and virtual power plant participation."}].map((it,i)=><FC key={i} icon={I.zap} title={it.t} desc={it.d} i={i}/>)}</div></section>
   <CTA badge="Battery Consultation" title="If resilience or smarter home energy control matters, start with storage planning." sub="Compare Tesla, Enphase, Pointguard, retrofit pathways, and the role a battery should play."/>
@@ -548,7 +563,7 @@ function AboutPage(){return <div>
         <p style={{fontSize:14,color:C.muted,lineHeight:1.7,marginBottom:10}}>Trusted local service, proven materials, and systems designed for reliable long-term performance.</p>
         <p style={{fontSize:14,color:C.muted,lineHeight:1.7}}>Verify the business through its published phone number, email, location, and contractor license.</p>
       </div></R>
-      <ImgSection type="about" height={320} label="San Diego, CA"/>
+      <ImgSection type="sandiego" height={320} label="San Diego, CA"/>
     </div>
     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>
       <FC icon={I.clk} title="Since 2005" desc="Providing residential, commercial, and non-profit solar in San Diego since 2005." i={0}/>
@@ -565,9 +580,9 @@ function AboutPage(){return <div>
 function SolutionsPage(){return <div>
   <Hero heroType="solar" badge="Solutions" title="Choose the Perk Solar path that fits the property, the load, and the goal." sub="Compare the core service paths for commercial solar, residential solar, battery storage, and EV charging before diving deeper." pLabel="Get a Free Quote" pTo="/contact" sLabel="Talk to a Solar Specialist" sHref="tel:+16193341212" stats={[{l:"Commercial + Residential",v:"Both audiences"},{l:"Battery + EV Ready",v:"Storage + charging"},{l:"Southern California",v:"San Diego experience"}]}/>
   <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Service Paths" title="Four core routes, each with a direct next step."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
-    <NC num="01" title="Commercial Solar" desc="Turnkey solar for operating-cost reduction, long-term ROI, and energy resilience." to="/commercial-solar" vtype="commercial" d={0}/>
-    <NC num="02" title="Residential Solar" desc="Homeowner-friendly solar designed for performance, aesthetics, and backup-readiness." to="/residential-solar" vtype="solar" d={.08}/>
-    <NC num="03" title="Battery Storage" desc="Tesla-centered and battery-certified expertise for outage protection and control." to="/batteries" vtype="battery" d={.16}/>
+    <NC num="01" title="Commercial Solar" desc="Turnkey solar for operating-cost reduction, long-term ROI, and energy resilience." to="/commercial-solar" vtype="pvCommercial" d={0}/>
+    <NC num="02" title="Residential Solar" desc="Homeowner-friendly solar designed for performance, aesthetics, and backup-readiness." to="/residential-solar" vtype="pvRooftop" d={.08}/>
+    <NC num="03" title="Battery Storage" desc="Tesla-centered and battery-certified expertise for outage protection and control." to="/batteries" vtype="tesla" d={.16}/>
     <NC num="04" title="EV Chargers" desc="Workplace, fleet, multifamily, and home charging for today and tomorrow." to="/ev-chargers" vtype="ev" d={.24}/>
   </div></section>
   <section style={{background:C.sf,borderTop:`1px solid ${C.border}`,borderBottom:`1px solid ${C.border}`,position:"relative",overflow:"hidden"}}><Gorb color="#f59e0b" size={300} top="-10%" right="15%" d={1}/><div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}><SH badge="How To Choose" title="The right route usually follows the property type and the upgrade priority."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}><FC icon={I.bld} title="Commercial solar" desc="Operating-cost reduction, stronger long-term ROI, and property-level electrical planning." i={0}/><FC icon={I.hm} title="Residential solar" desc="Lower bills, cleaner installation, and a more storage-ready path." i={1}/><FC icon={I.bat} title="Battery and EV upgrades" desc="Best when resilience, electrification, and future energy flexibility all matter." i={2}/></div></div></section>
