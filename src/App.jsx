@@ -348,15 +348,6 @@ function Header(){
 
 // ─── FOOTER ─────────────────────────────────
 function Footer(){return <footer style={{background:C.sf,borderTop:`1px solid ${C.border}`}}>
-  <div style={{maxWidth:1200,margin:"0 auto",padding:"80px 24px 60px"}}><R>
-    <div className="cshm" style={{background:`linear-gradient(135deg,${C.card},#1a1710)`,border:`1px solid ${C.border}`,borderRadius:20,padding:"56px 40px",textAlign:"center",position:"relative",overflow:"hidden"}}>
-      <Gorb color={C.accent} size={300} top="-30%" right="-10%"/>
-      <Badge>Southern California Solar Partner</Badge>
-      <h2 style={{fontSize:"clamp(1.6rem,3vw,2.4rem)",fontWeight:700,color:C.white,marginBottom:12,letterSpacing:"-.02em"}}>Commercial solar, battery storage, and EV charging delivered with local accountability.</h2>
-      <p style={{fontSize:15,color:C.muted,maxWidth:540,margin:"0 auto 28px",lineHeight:1.7}}>Perk Solar supports businesses, property owners, and homeowners with professional installation, tighter communication, and long-term energy planning across Southern California.</p>
-      <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}><L to="/contact" className="bglow" style={btn("p")}>Get a Quote {I.arr}</L><a href="tel:+16193341212" style={btn("o")}>{I.ph} Talk to a Specialist</a></div>
-    </div>
-  </R></div>
   <div style={{borderTop:`1px solid ${C.border}`}}>
     <div style={{maxWidth:1200,margin:"0 auto",padding:"48px 24px 32px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:36}}>
       <div>
