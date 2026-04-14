@@ -17,10 +17,10 @@ const VISUALS = {
   about:       { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=1200&q=80" },
   contact:     { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=1200&q=80" },
   // PV system types
-  pvRooftop:   { bg: "linear-gradient(135deg, #1a1508 0%, #251a0a 40%, #1a1508 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=1200&q=80" },
-  pvGround:    { bg: "linear-gradient(135deg, #0f1a08 0%, #152010 40%, #0f1508 100%)", accent: "#22c55e", img: "https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?w=1200&q=80" },
-  pvCarport:   { bg: "linear-gradient(135deg, #15100a 0%, #201510 40%, #15100a 100%)", accent: "#f97316", img: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=1200&q=80" },
-  pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&q=80" },
+  pvRooftop:   { bg: "linear-gradient(135deg, #1a1508 0%, #251a0a 40%, #1a1508 100%)", accent: "#ef4444", img: "https://images.pexels.com/photos/9875680/pexels-photo-9875680.jpeg?w=1200&h=800&fit=crop" },
+  pvGround:    { bg: "linear-gradient(135deg, #0f1a08 0%, #152010 40%, #0f1508 100%)", accent: "#22c55e", img: "https://images.pexels.com/photos/2800832/pexels-photo-2800832.jpeg?w=1200&h=800&fit=crop" },
+  pvCarport:   { bg: "linear-gradient(135deg, #15100a 0%, #201510 40%, #15100a 100%)", accent: "#f97316", img: "https://images.pexels.com/photos/2850347/pexels-photo-2850347.jpeg?w=1200&h=800&fit=crop" },
+  pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?w=1200&h=800&fit=crop" },
   // Battery brands
   tesla:       { bg: "linear-gradient(135deg, #101015 0%, #1a1520 40%, #101015 100%)", accent: "#ef4444", img: "https://images.unsplash.com/photo-1616763355548-1b606f439f86?w=1200&q=80" },
   enphase:     { bg: "linear-gradient(135deg, #0f1518 0%, #15202a 40%, #0f1518 100%)", accent: "#3b82f6", img: "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1200&q=80" },
