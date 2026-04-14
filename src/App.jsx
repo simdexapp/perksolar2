@@ -15,14 +15,14 @@ const VISUALS = {
   ev:          { bg: "linear-gradient(135deg, #151018 0%, #1a1020 40%, #151015 100%)", accent: "#3b82f6", img: "https://images.pexels.com/photos/9799994/pexels-photo-9799994.jpeg?w=1200&h=800&fit=crop" },
   about:       { bg: "linear-gradient(135deg, #1a1510 0%, #201a10 40%, #1a1510 100%)", accent: "#f97316", img: "https://images.pexels.com/photos/433308/pexels-photo-433308.jpeg?w=1200&h=800&fit=crop" },
   contact:     { bg: "linear-gradient(135deg, #150f10 0%, #1a1015 40%, #151015 100%)", accent: "#ef4444", img: "https://images.pexels.com/photos/371900/pexels-photo-371900.jpeg?w=1200&h=800&fit=crop" },
-  pvRooftop:   { bg: "linear-gradient(135deg, #1a1508 0%, #251a0a 40%, #1a1508 100%)", accent: "#ef4444", img: "https://images.pexels.com/photos/2800832/pexels-photo-2800832.jpeg?w=1200&h=800&fit=crop" },
+  pvRooftop:   { bg: "linear-gradient(135deg, #1a1508 0%, #251a0a 40%, #1a1508 100%)", accent: "#ef4444", img: "https://images.pexels.com/photos/2259917/pexels-photo-2259917.jpeg?w=1200&h=800&fit=crop" },
   pvGround:    { bg: "linear-gradient(135deg, #0f1a08 0%, #152010 40%, #0f1508 100%)", accent: "#22c55e", img: "https://images.pexels.com/photos/159397/solar-panel-array-power-sun-electricity-159397.jpeg?w=1200&h=800&fit=crop" },
   pvCarport:   { bg: "linear-gradient(135deg, #15100a 0%, #201510 40%, #15100a 100%)", accent: "#f97316", img: "https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?w=1200&h=800&fit=crop" },
-  pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "https://images.pexels.com/photos/433308/pexels-photo-433308.jpeg?w=1200&h=800&fit=crop" },
+  pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "https://images.pexels.com/photos/9799994/pexels-photo-9799994.jpeg?w=1200&h=800&fit=crop" },
   tesla:       { bg: "linear-gradient(135deg, #101015 0%, #1a1520 40%, #101015 100%)", accent: "#ef4444", img: "https://images.pexels.com/photos/3862365/pexels-photo-3862365.jpeg?w=1200&h=800&fit=crop" },
   enphase:     { bg: "linear-gradient(135deg, #0f1518 0%, #15202a 40%, #0f1518 100%)", accent: "#3b82f6", img: "https://images.pexels.com/photos/3044473/pexels-photo-3044473.jpeg?w=1200&h=800&fit=crop" },
   sigenergy:   { bg: "linear-gradient(135deg, #151510 0%, #1a2018 40%, #151510 100%)", accent: "#22c55e", img: "https://images.pexels.com/photos/6970617/pexels-photo-6970617.jpeg?w=1200&h=800&fit=crop" },
-  worker:      { bg: "linear-gradient(135deg, #1a1205 0%, #2a1a0a 40%, #1a1205 100%)", accent: "#f97316", img: "https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?w=1200&h=800&fit=crop" },
+  worker:      { bg: "linear-gradient(135deg, #1a1205 0%, #2a1a0a 40%, #1a1205 100%)", accent: "#f97316", img: "https://images.pexels.com/photos/8853536/pexels-photo-8853536.jpeg?w=1200&h=800&fit=crop" },
   sandiego:    { bg: "linear-gradient(135deg, #0a1520 0%, #15202a 40%, #0a1520 100%)", accent: "#3b82f6", img: "https://images.pexels.com/photos/1036936/pexels-photo-1036936.jpeg?w=1200&h=800&fit=crop" },
 };
 
