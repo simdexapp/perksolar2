@@ -185,7 +185,21 @@ const I = {
   x: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>,
   hm: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>,
   bld: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>,
+  // Social icons
+  ig: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>,
+  fb: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>,
+  tw: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
+  tt: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.86a8.28 8.28 0 0 0 4.79 1.53V6.93a4.84 4.84 0 0 1-1.03-.24z"/></svg>,
+  th: <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.757.784c-.474-1.68-1.324-2.997-2.526-3.912-1.2-.914-2.715-1.398-4.505-1.437h-.013c-2.65.04-4.627.937-5.88 2.667-1.26 1.74-1.916 4.37-1.944 7.81v.015c.027 3.383.672 6.005 1.915 7.788 1.243 1.784 3.2 2.723 5.817 2.795h.028c2.092-.055 3.604-.646 4.622-1.806 1.017-1.16 1.548-2.81 1.573-4.898v-.048l-.015-1.248H12.19V12.5h8.808v1.5c0 3.05-.85 5.403-2.525 6.993-1.677 1.59-3.956 2.42-6.78 2.5h-.016l-.013.007h-.014z"/></svg>,
 };
+
+const SOCIALS = [
+  { icon: "ig", href: "https://instagram.com/perksolar", label: "Instagram" },
+  { icon: "fb", href: "https://facebook.com/perksolar", label: "Facebook" },
+  { icon: "tw", href: "https://x.com/perksolarinc", label: "X" },
+  { icon: "tt", href: "https://tiktok.com/@perksolar", label: "TikTok" },
+  { icon: "th", href: "https://threads.net/@perksolar", label: "Threads" },
+];
 
 // ─── CSS ────────────────────────────────────
 function CSS() { return <style>{`
@@ -438,6 +452,8 @@ function Header(){
         </L>
         <nav className="dn" style={{gap:2,alignItems:"center"}}>{nv.map(n=><L key={n.t} to={n.t} className="nav-link" style={{padding:"7px 14px",fontSize:13,color:C.muted,borderRadius:8,transition:"all .2s",fontWeight:500}}>{n.l}</L>)}</nav>
         <div className="dn" style={{gap:10,alignItems:"center"}}>
+          {SOCIALS.map(s=><a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="nav-link" style={{color:C.muted,transition:"color .2s",display:"flex",padding:4}}>{I[s.icon]}</a>)}
+          <div style={{width:1,height:20,background:C.border,margin:"0 4px"}}/>
           <a href="tel:+16193341212" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 16px",border:`1px solid ${C.border}`,borderRadius:8,fontSize:13,color:C.text,fontWeight:500}}>{I.ph} 619-334-1212</a>
           <L to="/contact" className="bglow grad-btn" style={{display:"inline-flex",alignItems:"center",gap:6,padding:"8px 18px",background:C.grad,borderRadius:8,fontSize:13,color:C.white,fontWeight:600}}>Get a Free Quote</L>
         </div>
@@ -449,6 +465,7 @@ function Header(){
       <div style={{marginTop:20,display:"flex",flexDirection:"column",gap:12,width:"80%",maxWidth:300}}>
         <a href="tel:+16193341212" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"12px 24px",border:`1px solid ${C.border}`,borderRadius:10,color:C.text,fontWeight:500}}>{I.ph} 619-334-1212</a>
         <L to="/contact" onClick={()=>setOp(false)} className="bglow grad-btn" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"12px 24px",background:C.grad,borderRadius:10,color:C.white,fontWeight:600}}>Get a Free Quote</L>
+        <div style={{display:"flex",gap:12,justifyContent:"center",marginTop:8}}>{SOCIALS.map(s=><a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} style={{width:40,height:40,borderRadius:10,border:`1px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",color:C.muted}}>{I[s.icon]}</a>)}</div>
       </div>
     </div>}
   </>;
@@ -469,7 +486,7 @@ function Footer(){return <footer style={{background:C.sf,borderTop:`1px solid ${
         </div>
       </div>
       <div><h4 style={{color:C.white,fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1.5px",marginBottom:14}}>Services</h4>{[["Commercial Solar","/commercial-solar"],["Residential Solar","/residential-solar"],["PV Solar","/pv-solar"],["Batteries","/batteries"],["EV Chargers","/ev-chargers"]].map(([l,t])=><L key={t} to={t} style={{display:"block",color:C.muted,fontSize:13,padding:"3px 0"}}>{l}</L>)}</div>
-      <div><h4 style={{color:C.white,fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1.5px",marginBottom:14}}>Company</h4>{[["About","/about"],["Solutions","/solutions"],["Contact","/contact"]].map(([l,t])=><L key={t} to={t} style={{display:"block",color:C.muted,fontSize:13,padding:"3px 0"}}>{l}</L>)}<h4 style={{color:C.white,fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1.5px",marginTop:18,marginBottom:10}}>Social</h4><div style={{fontSize:13,color:C.muted}}>Facebook · Instagram · X</div></div>
+      <div><h4 style={{color:C.white,fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1.5px",marginBottom:14}}>Company</h4>{[["About","/about"],["Solutions","/solutions"],["Contact","/contact"]].map(([l,t])=><L key={t} to={t} style={{display:"block",color:C.muted,fontSize:13,padding:"3px 0"}}>{l}</L>)}<h4 style={{color:C.white,fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1.5px",marginTop:18,marginBottom:10}}>Follow Us</h4><div style={{display:"flex",gap:8}}>{SOCIALS.map(s=><a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} style={{width:36,height:36,borderRadius:10,border:`1px solid ${C.border}`,display:"flex",alignItems:"center",justifyContent:"center",color:C.muted,transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor="#ef444440";e.currentTarget.style.color=C.white;e.currentTarget.style.background="#ef444412"}} onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.color=C.muted;e.currentTarget.style.background="transparent"}}>{I[s.icon]}</a>)}</div></div>
       <div><h4 style={{color:C.white,fontSize:12,fontWeight:600,textTransform:"uppercase",letterSpacing:"1.5px",marginBottom:14}}>Start a Project</h4><p style={{fontSize:13,color:C.muted,marginBottom:14,lineHeight:1.6}}>Ready for solar, batteries, or EV charging?</p><L to="/contact" className="bglow grad-btn" style={{...btn("p"),fontSize:13,padding:"10px 20px"}}>Get a Free Quote</L></div>
     </div>
     <div style={{maxWidth:1200,margin:"0 auto",borderTop:`1px solid ${C.border}`,padding:"16px 24px",textAlign:"center",fontSize:12,color:C.subtle}}>© 2026 Perk Solar Inc. Serving Southern California.</div>
