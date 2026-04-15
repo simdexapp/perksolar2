@@ -613,13 +613,126 @@ function PVSolarPage(){const sys=[{id:"rooftop",b:"PV Rooftop Solar Systems",t:"
 // ─── BATTERIES ──────────────────────────────
 function BatteriesPage(){return <div>
   <Hero heroType="battery" badge="Battery Storage" title="Battery storage for backup power, smarter energy control, and whole-home planning." sub="Perk Solar supports battery planning with rebate guidance, Tesla and Enphase certifications, Pointguard and Sigenergy options, and retrofit work." pLabel="Discuss Battery Storage" pTo="/contact" sLabel="Call to Discuss Options" sHref="tel:+16193341212" stats={[{l:"Tesla + Enphase",v:"Battery-certified"},{l:"Retrofit Ready",v:"Add storage anytime"},{l:"EV Aware",v:"Whole-home planning"}]}/>
-  <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Battery Directory" title="Battery planning at Perk Solar is broader than one product page." sub="Storage is framed around certifications, partner fit, retrofit value, and long-term energy behavior."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}><FC icon={I.zap} title="Rebate navigation" desc="Navigate SGIP and San Diego Community Power battery programs." i={0}/><FC icon={I.sh} title="Tesla and Enphase certifications" desc="Battery certified with recommendations tied to the property." i={1}/><FC icon={I.bat} title="Retrofits and whole-home planning" desc="Retrofit work, EV charging, smart electrical upgrades, and resilience planning." i={2}/></div></section>
 
-  <BatteryCard tag="Tesla Powerwall" title="Tesla Powerwall 3 stays a strong option for premium backup and cleaner system expansion." desc="Tesla Powerwall stores energy from solar or the grid, supports outage protection, and gives customers a cleaner path to expansion." features={["Energy savings","Solar day and night","Usage monitoring","Backup protection","Lower grid reliance","Easy expansion"]} vtype="tesla" d={0}/>
-  <BatteryCard tag="Enphase IQ Battery" title="Enphase stays compelling for modular, LFP-based residential storage." desc="The IQ Battery 10C starts with 10 kWh and can expand. Lithium Iron Phosphate chemistry supports a safer, future-ready foundation." features={["Powerful","Compact","Modular","Easy to install","Safe","Reliable"]} vtype="enphase" d={1.5}/>
-  <BatteryCard tag="Sigenergy / Pointguard" title="Pointguard and Sigenergy expand into all-in-one home energy management." desc="Sigenergy combines inverter, battery PCS, battery packs, EMS, and optional bidirectional EV charging in one modular system." features={["5-in-1 design","Intelligent dispatch","Backup protection","Peak-hour control","Bidirectional EV","Modular"]} vtype="sigenergy" d={3}/>
+  {/* SDCP Rebate Banner */}
+  <section className="section-glow" style={{background:"linear-gradient(135deg,#18181b,#1a1510)",borderTop:`1px solid ${C.border}`,borderBottom:`1px solid ${C.border}`,position:"relative",overflow:"hidden"}}>
+    <Gorb color="#f97316" size={300} top="-20%" right="10%"/>
+    <div style={{maxWidth:1200,margin:"0 auto",padding:"60px 24px",position:"relative",zIndex:1,textAlign:"center"}}>
+      <R><Badge>2026 Rebates</Badge>
+      <h2 style={{fontSize:"clamp(1.4rem,2.5vw,1.8rem)",fontWeight:700,color:C.white,marginBottom:12}}>San Diego Community Power is bringing back battery storage rebates for 2026.</h2>
+      <p style={{fontSize:15,color:C.muted,maxWidth:560,margin:"0 auto 24px",lineHeight:1.7}}>Perk Solar navigates SGIP and SDCP rebate programs to secure maximum savings for customers. Inquire today to learn how you can qualify.</p>
+      <L to="/contact" className="bglow grad-btn pulse-btn" style={btn("p")}>Get a Battery Quote {I.arr}</L></R>
+    </div>
+  </section>
 
-  <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Residential Solutions" title="Storage increasingly belongs inside a wider whole-home energy modernization plan."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>{[{t:"The battery pivot",d:"Capture midday solar production and use it later when utility rates are highest."},{t:"Retrofitting for ROI",d:"Adding storage later can preserve the value of an existing solar install."},{t:"Whole-home electrification",d:"Battery systems make more sense when planned alongside EV charging."},{t:"VPP-ready conversations",d:"Some platforms can support grid services and virtual power plant participation."}].map((it,i)=><FC key={i} icon={I.zap} title={it.t} desc={it.d} i={i}/>)}</div></section>
+  {/* Battery Directory */}
+  <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Battery Expertise" title="San Diego's battery storage experts with a proven record of successful installations." sub="Perk Solar is Tesla and Enphase Battery certified, specializing in navigating SGIP and San Diego Community Power rebate programs to secure maximum savings."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}><FC icon={I.zap} title="Rebate navigation" desc="Navigate SGIP and San Diego Community Power battery rebate programs to maximize your savings." i={0}/><FC icon={I.sh} title="Tesla & Enphase certified" desc="Battery certified installer with product recommendations tied to your property and goals." i={1}/><FC icon={I.bat} title="Retrofits & whole-home planning" desc="Retrofit work, EV charging integration, smart electrical upgrades, and full resilience planning." i={2}/></div></section>
+
+  {/* ═══ TESLA POWERWALL ═══ */}
+  <section id="tesla" style={{borderTop:`1px solid ${C.border}`,position:"relative",overflow:"hidden"}}>
+    <Gorb color="#ef4444" size={400} top="5%" right="-5%"/>
+    <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:40,alignItems:"center",marginBottom:60}}>
+        <R><div>
+          <Badge>Tesla Powerwall 3</Badge>
+          <h2 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.white,letterSpacing:"-.02em",marginBottom:16}}>Declare your energy independence with the new Tesla Powerwall 3.</h2>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:20}}>This isn't just a battery — it's the integrated powerhouse for the modern home. Its groundbreaking all-in-one design delivers more power with less hardware, offering a sleek and simple solution to energy storage. This is more than backup power; this is energy, evolved.</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>{["Energy savings","Solar day and night","Usage monitoring","Backup protection","Lower grid reliance","Easy expansion"].map(f=><span key={f} className="tag-float" style={{padding:"8px 16px",background:C.card,border:`1px solid ${C.border}`,borderRadius:100,fontSize:13,color:C.text,fontWeight:500}}>{f}</span>)}</div>
+          <L to="/contact" className="bglow grad-btn" style={btn("p")}>Get a Tesla Powerwall Quote {I.arr}</L>
+        </div></R>
+        <R delay={0.15}><VisualPanel type="tesla" height={340}/></R>
+      </div>
+
+      {/* Rebate Details */}
+      <R><div className="gradient-border cshm" style={{background:`linear-gradient(135deg,${C.card},#1a1510)`,border:`1px solid ${C.border}`,borderRadius:18,padding:36,marginBottom:40}}>
+        <Badge>Tesla Rebate — Limited Time</Badge>
+        <h3 style={{fontSize:20,fontWeight:700,color:C.white,marginBottom:16}}>Order Powerwall between November 1, 2025 and March 31, 2026 and claim a rebate of up to $1,000.</h3>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:20}}>
+          <div>
+            <h4 style={{fontSize:14,fontWeight:600,color:C.white,marginBottom:8}}>Rebate Details</h4>
+            <CI text="$500 per Powerwall 3 or Powerwall 3 Expansion, up to $1,000 total"/>
+            <CI text="Eligible models: Powerwall 3 and Powerwall 3 Expansion (up to two units)"/>
+            <CI text="Order window: November 1, 2025 – March 31, 2026"/>
+            <CI text="Install window: January 1, 2026 – September 30, 2026"/>
+            <CI text="Reward: Virtual Visa Reward Card sent by email"/>
+          </div>
+          <div>
+            <h4 style={{fontSize:14,fontWeight:600,color:C.white,marginBottom:8}}>Eligibility</h4>
+            <CI text="Order Powerwall 3 directly with Tesla or a Tesla Certified Installer like Perk Solar"/>
+            <CI text="Register for the rebate through the Tesla rebate portal by March 31, 2026"/>
+            <CI text="Have Powerwall installed, connected and registered by September 30, 2026"/>
+            <CI text="Submit rebate request through the portal by September 30, 2026"/>
+          </div>
+        </div>
+        <div style={{marginTop:20}}><L to="/contact" className="bglow grad-btn" style={btn("p")}>Claim Your Tesla Rebate {I.arr}</L></div>
+      </div></R>
+    </div>
+  </section>
+
+  {/* ═══ ENPHASE IQ BATTERY ═══ */}
+  <section id="enphase" style={{borderTop:`1px solid ${C.border}`,background:C.sf,position:"relative",overflow:"hidden"}}>
+    <Gorb color="#3b82f6" size={400} top="5%" left="-5%"/>
+    <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:40,alignItems:"center",marginBottom:60}}>
+        <R delay={0.15}><VisualPanel type="enphase" height={340}/></R>
+        <R><div>
+          <Badge>Enphase IQ Battery 10C</Badge>
+          <h2 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.white,letterSpacing:"-.02em",marginBottom:16}}>The best just got better. Smarter. Simpler. More powerful.</h2>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:12}}>The 4th-generation Enphase Energy System is designed for seamless integration into residential homes, making installations quicker, cleaner, and easier than ever. Featuring a sleek, modern design and fewer components, it delivers reliable backup power — now without the previous generation's IQ System Controller.</p>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:20}}>Utilizing safe Lithium Iron Phosphate (LFP) chemistry, its powerful modular design allows you to start with 10 kWh of storage and easily expand as your family's energy needs grow. Take complete control through the intuitive Enphase App for a smarter, more resilient home.</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>{["Powerful","Compact","Modular","Easy to install","Safe LFP chemistry","Reliable","App control","Future-proof"].map(f=><span key={f} className="tag-float" style={{padding:"8px 16px",background:C.card,border:`1px solid ${C.border}`,borderRadius:100,fontSize:13,color:C.text,fontWeight:500}}>{f}</span>)}</div>
+          <L to="/contact" className="bglow grad-btn" style={btn("p")}>Get an Enphase Quote {I.arr}</L>
+        </div></R>
+      </div>
+
+      <R><div className="gradient-border cshm" style={{background:`linear-gradient(135deg,${C.card},#101520)`,border:`1px solid ${C.border}`,borderRadius:18,padding:36}}>
+        <Badge>What's New in Gen 4</Badge>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>
+          <FC icon={I.zap} title="No System Controller needed" desc="Fewer components, less clutter — same unmatched Enphase reliability." i={0}/>
+          <FC icon={I.bat} title="LFP battery chemistry" desc="Lithium Iron Phosphate delivers a safer, longer-lasting foundation for home storage." i={1}/>
+          <FC icon={I.sh} title="Modular expansion" desc="Start with 10 kWh and add capacity as your household energy needs grow over time." i={2}/>
+        </div>
+      </div></R>
+    </div>
+  </section>
+
+  {/* ═══ SIGENERGY / POINTGUARD ═══ */}
+  <section id="sigenergy" style={{borderTop:`1px solid ${C.border}`,position:"relative",overflow:"hidden"}}>
+    <Gorb color="#22c55e" size={400} top="5%" right="-5%" d={1}/>
+    <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:40,alignItems:"center",marginBottom:60}}>
+        <R><div>
+          <Badge>Sigenergy / Pointguard</Badge>
+          <h2 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.white,letterSpacing:"-.02em",marginBottom:16}}>Home Energy Solutions — Let the world enjoy green energy.</h2>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:12}}>Sigenergy is leading the new way of producing, storing, dispatching, and consuming electricity in the home. Their genuine all-in-one home energy management system, SigenStor, features a unique 5-in-One modular design that integrates the solar inverter, optional bi-directional EV DC Charger, Battery PCS, Battery Packs, and EMS into one fully integrated, intelligent system.</p>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:20}}>Put a playmaker in charge of your home's energy. The Pointguard Home Battery system directs your solar power with precision, storing it for when you need it most. It guards you from grid failures and blackouts, and makes the smart play — using stored power to lower your bills during peak hours.</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>{["5-in-1 design","Intelligent dispatch","Backup protection","Peak-hour control","Bidirectional EV","Modular","Solar inverter","EMS integrated"].map(f=><span key={f} className="tag-float" style={{padding:"8px 16px",background:C.card,border:`1px solid ${C.border}`,borderRadius:100,fontSize:13,color:C.text,fontWeight:500}}>{f}</span>)}</div>
+          <L to="/contact" className="bglow grad-btn" style={btn("p")}>Get a Sigenergy Quote {I.arr}</L>
+        </div></R>
+        <R delay={0.15}><VisualPanel type="sigenergy" height={340}/></R>
+      </div>
+
+      <R><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
+        <div className="gradient-border cshm" style={{background:`linear-gradient(135deg,${C.card},#15201a)`,border:`1px solid ${C.border}`,borderRadius:18,padding:28}}>
+          <h3 style={{fontSize:16,fontWeight:600,color:C.white,marginBottom:12}}>About Sigenergy</h3>
+          <p style={{fontSize:14,color:C.muted,lineHeight:1.7}}>Sigenergy focuses on developing cutting-edge home and business energy solutions, with products ranging from energy storage systems to solar inverters and EV chargers. Their world-class R&D team of hundreds of top industry experts shares the vision of making the world greener via continuous innovation.</p>
+        </div>
+        <div className="gradient-border cshm" style={{background:`linear-gradient(135deg,${C.card},#15201a)`,border:`1px solid ${C.border}`,borderRadius:18,padding:28}}>
+          <h3 style={{fontSize:16,fontWeight:600,color:C.white,marginBottom:12}}>Mission & Vision</h3>
+          <p style={{fontSize:14,color:C.muted,lineHeight:1.7,marginBottom:8}}>Be a distributed energy pioneer. Build intelligent energy solutions with superior safety, ultra simplicity, and outstanding performance.</p>
+          <p style={{fontSize:14,color:C.accent,fontWeight:600,fontStyle:"italic"}}>Vision: Enjoy Green Energy</p>
+        </div>
+      </div></R>
+    </div>
+  </section>
+
+  {/* Residential Solutions */}
+  <section style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",borderTop:`1px solid ${C.border}`}}><SH badge="Residential Solutions" title="Storage increasingly belongs inside a wider whole-home energy modernization plan."/><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>{[
+    {t:"The battery pivot",d:"Capture your midday solar energy and use it during the 4 PM – 9 PM peak when SDG&E rates are highest."},
+    {t:"Retrofitting for ROI",d:"Adding a battery like the Powerwall 3 or Enphase 10C is the best way to preserve your system's value under current net metering rules."},
+    {t:"Whole-home electrification",d:"Bundling bidirectional EV chargers and smart electrical panels (like Span or Pulse) creates a high-efficiency backup strategy."},
+    {t:"VPP enrollment",d:"Your battery can earn you $300 to $600 per year by supporting the grid during heatwaves through Virtual Power Plant programs."}
+  ].map((it,i)=><FC key={i} icon={I.zap} title={it.t} desc={it.d} i={i}/>)}</div></section>
   <CTA badge="Battery Consultation" title="If resilience or smarter home energy control matters, start with storage planning." sub="Compare Tesla, Enphase, Pointguard, retrofit pathways, and the role a battery should play."/>
 </div>}
 
