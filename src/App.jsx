@@ -20,7 +20,7 @@ const VISUALS = {
   pvCarport:   { bg: "linear-gradient(135deg, #15100a 0%, #201510 40%, #15100a 100%)", accent: "#f97316", img: "/media/pv/carport.jpg" },
   pvCommercial:{ bg: "linear-gradient(135deg, #0a0f1a 0%, #10152a 40%, #0a0f18 100%)", accent: "#3b82f6", img: "/media/pv/commercial.jpg" },
   tesla:       { bg: "linear-gradient(135deg, #101015 0%, #1a1520 40%, #101015 100%)", accent: "#ef4444", img: "/media/batteries/tesla-powerwall.jpg" },
-  enphase:     { bg: "linear-gradient(135deg, #0f1518 0%, #15202a 40%, #0f1518 100%)", accent: "#3b82f6", img: "/media/batteries/enphase-battery.png" },
+  enphase:     { bg: "linear-gradient(135deg, #0f1518 0%, #15202a 40%, #0f1518 100%)", accent: "#3b82f6", img: "/media/enphase/battery-10c.png" },
   sigenergy:   { bg: "linear-gradient(135deg, #151510 0%, #1a2018 40%, #151510 100%)", accent: "#22c55e", img: "/media/batteries/sigenergy-pointguard.jpg" },
   worker:      { bg: "linear-gradient(135deg, #1a1205 0%, #2a1a0a 40%, #1a1205 100%)", accent: "#f97316", img: "/media/home/hero-install.jpg" },
   sandiego:    { bg: "linear-gradient(135deg, #0a1520 0%, #15202a 40%, #0a1520 100%)", accent: "#3b82f6", img: "/media/home/pv-hero.jpg" },
@@ -673,23 +673,85 @@ function BatteriesPage(){return <div>
   <section id="enphase" style={{borderTop:`1px solid ${C.border}`,background:C.sf,position:"relative",overflow:"hidden"}}>
     <Gorb color="#3b82f6" size={400} top="5%" left="-5%"/>
     <div style={{maxWidth:1200,margin:"0 auto",padding:"100px 24px",position:"relative",zIndex:1}}>
+      {/* Hero intro */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit, minmax(280px, 1fr))",gap:40,alignItems:"center",marginBottom:60}}>
-        <R delay={0.15}><VisualPanel type="enphase" height={340}/></R>
+        <R delay={0.15}><div style={{borderRadius:16,overflow:"hidden",background:"#f5f5f5",padding:32,display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <img src="/media/enphase/battery-10c.png" alt="Enphase IQ Battery 10C" style={{maxWidth:"100%",maxHeight:300,objectFit:"contain"}}/>
+        </div></R>
         <R><div>
-          <Badge>Enphase IQ Battery 10C</Badge>
+          <img src="/media/enphase/enphase-logo.png" alt="Enphase" style={{height:28,marginBottom:16,opacity:0.8}}/>
+          <Badge>4th Generation Enphase Energy System</Badge>
           <h2 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.white,letterSpacing:"-.02em",marginBottom:16}}>The best just got better. Smarter. Simpler. More powerful.</h2>
-          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:12}}>The 4th-generation Enphase Energy System is designed for seamless integration into residential homes, making installations quicker, cleaner, and easier than ever. Featuring a sleek, modern design and fewer components, it delivers reliable backup power — now without the previous generation's IQ System Controller.</p>
-          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:20}}>Utilizing safe Lithium Iron Phosphate (LFP) chemistry, its powerful modular design allows you to start with 10 kWh of storage and easily expand as your family's energy needs grow. Take complete control through the intuitive Enphase App for a smarter, more resilient home.</p>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:12}}>The 4th-generation Enphase Energy System is designed for seamless integration into residential homes, making installations quicker, cleaner, and easier than ever. Featuring a sleek, modern design and fewer components, it delivers reliable backup power — now without the previous generation's IQ System Controller. Less clutter. Fewer parts. Same unmatched Enphase reliability.</p>
+          <p style={{fontSize:15,color:C.muted,lineHeight:1.7,marginBottom:20}}>Utilizing safe Lithium Iron Phosphate (LFP) chemistry, its powerful modular design allows you to start with 10 kWh of storage and easily expand as your family's energy needs grow. Take complete control through the intuitive Enphase App for a smarter, more resilient home. It's a flexible, future-proof foundation for your energy independence.</p>
           <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>{["Powerful","Compact","Modular","Easy to install","Safe LFP chemistry","Reliable","App control","Future-proof"].map(f=><span key={f} className="tag-float" style={{padding:"8px 16px",background:C.card,border:`1px solid ${C.border}`,borderRadius:100,fontSize:13,color:C.text,fontWeight:500}}>{f}</span>)}</div>
           <L to="/contact" className="bglow grad-btn" style={btn("p")}>Get an Enphase Quote {I.arr}</L>
         </div></R>
       </div>
 
+      {/* What's New — 3 Product Cards */}
+      <R><div style={{marginBottom:60}}>
+        <Badge>What's New?</Badge>
+        <h3 style={{fontSize:"clamp(1.4rem,2.5vw,1.8rem)",fontWeight:700,color:C.white,marginBottom:32}}>The next generation of the Enphase Energy System</h3>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:20}}>
+
+          {/* IQ Battery 10C */}
+          <div className="card-tilt gradient-border cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:18,overflow:"hidden"}}>
+            <div style={{background:"#f5f5f5",padding:24,display:"flex",alignItems:"center",justifyContent:"center",minHeight:200,position:"relative"}}>
+              <img src="/media/enphase/battery-10c.png" alt="IQ Battery 10C" style={{maxHeight:140,objectFit:"contain"}}/>
+              <div style={{position:"absolute",top:12,right:12,background:"linear-gradient(135deg,#f97316,#ea580c)",borderRadius:8,padding:"6px 10px",textAlign:"center"}}>
+                <div style={{fontSize:10,fontWeight:700,color:"#fff",lineHeight:1}}>Enphase</div>
+                <div style={{fontSize:18,fontWeight:800,color:"#fff",lineHeight:1}}>15</div>
+                <div style={{fontSize:7,fontWeight:600,color:"#fff",lineHeight:1.1}}>year limited<br/>warranty</div>
+              </div>
+            </div>
+            <div style={{padding:24}}>
+              <h4 style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:10}}>IQ Battery 10C</h4>
+              <p style={{fontSize:14,color:C.muted,lineHeight:1.65}}>The IQ Battery 10C is the most compact and energy-dense battery yet — delivering 26% more energy density than its predecessor. With advanced battery management and built-in neutral-forming seamlessly integrated into IQ8B Microinverters, it reduces wall space requirements, lowers equipment costs, and simplifies installation for backup systems.</p>
+            </div>
+          </div>
+
+          {/* IQ Combiner 6C */}
+          <div className="card-tilt gradient-border cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:18,overflow:"hidden"}}>
+            <div style={{background:"#f5f5f5",padding:24,display:"flex",alignItems:"center",justifyContent:"center",minHeight:200,position:"relative"}}>
+              <img src="/media/enphase/components.png" alt="IQ Combiner 6C" style={{maxHeight:140,objectFit:"contain"}}/>
+              <div style={{position:"absolute",top:12,right:12,background:"linear-gradient(135deg,#f97316,#ea580c)",borderRadius:8,padding:"6px 10px",textAlign:"center"}}>
+                <div style={{fontSize:10,fontWeight:700,color:"#fff",lineHeight:1}}>Enphase</div>
+                <div style={{fontSize:18,fontWeight:800,color:"#fff",lineHeight:1}}>15</div>
+                <div style={{fontSize:7,fontWeight:600,color:"#fff",lineHeight:1.1}}>year limited<br/>warranty</div>
+              </div>
+            </div>
+            <div style={{padding:24}}>
+              <h4 style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:10}}>IQ Combiner 6C</h4>
+              <p style={{fontSize:14,color:C.muted,lineHeight:1.65}}>The IQ Combiner 6C integrates PV, batteries, and EV chargers in one streamlined enclosure. It supports load control for smarter energy management. With integrated current transformers (CTs) and enhanced PLC communication, it reduces installation complexity and wiring time — saving labor and ensuring a cleaner, faster setup.</p>
+            </div>
+          </div>
+
+          {/* IQ Meter Collar */}
+          <div className="card-tilt gradient-border cshm" style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:18,overflow:"hidden"}}>
+            <div style={{background:"#f5f5f5",padding:24,display:"flex",alignItems:"center",justifyContent:"center",minHeight:200,position:"relative"}}>
+              <img src="/media/enphase/system-points.png" alt="IQ Meter Collar" style={{maxHeight:140,objectFit:"contain"}}/>
+              <div style={{position:"absolute",top:12,right:12,background:"linear-gradient(135deg,#f97316,#ea580c)",borderRadius:8,padding:"6px 10px",textAlign:"center"}}>
+                <div style={{fontSize:10,fontWeight:700,color:"#fff",lineHeight:1}}>Enphase</div>
+                <div style={{fontSize:18,fontWeight:800,color:"#fff",lineHeight:1}}>15</div>
+                <div style={{fontSize:7,fontWeight:600,color:"#fff",lineHeight:1.1}}>year limited<br/>warranty</div>
+              </div>
+            </div>
+            <div style={{padding:24}}>
+              <h4 style={{fontSize:18,fontWeight:700,color:C.white,marginBottom:10}}>IQ Meter Collar</h4>
+              <p style={{fontSize:14,color:C.muted,lineHeight:1.65}}>The IQ Meter Collar simplifies whole home backup by eliminating costly load relocation, making installations faster, cleaner, and more efficient. With built-in consumption monitoring, it integrates seamlessly with the Enphase Energy System and streamlines installation. This reduces complexity and wiring time for a cleaner, faster setup.</p>
+            </div>
+          </div>
+
+        </div>
+      </div></R>
+
+      {/* Gen 4 Feature Summary */}
       <R><div className="gradient-border cshm" style={{background:`linear-gradient(135deg,${C.card},#101520)`,border:`1px solid ${C.border}`,borderRadius:18,padding:36}}>
-        <Badge>What's New in Gen 4</Badge>
+        <Badge>Why Gen 4 Enphase</Badge>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:16}}>
-          <FC icon={I.zap} title="No System Controller needed" desc="Fewer components, less clutter — same unmatched Enphase reliability." i={0}/>
-          <FC icon={I.bat} title="LFP battery chemistry" desc="Lithium Iron Phosphate delivers a safer, longer-lasting foundation for home storage." i={1}/>
+          <FC icon={I.zap} title="No System Controller needed" desc="Fewer components, less clutter — same unmatched Enphase reliability with a simpler install." i={0}/>
+          <FC icon={I.bat} title="26% more energy density" desc="The IQ Battery 10C packs more storage into less wall space with advanced LFP chemistry." i={1}/>
           <FC icon={I.sh} title="Modular expansion" desc="Start with 10 kWh and add capacity as your household energy needs grow over time." i={2}/>
         </div>
       </div></R>
